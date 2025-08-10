@@ -1,0 +1,51 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.hidden {
+    display: none;
+}
+
+#dashboard-view, #log-workout-view, #history-view {
+    animation: fadeIn 0.5s;
+}
+
+.exercise-card {
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: .25rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.delete-exercise-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.accordion-button:not(.collapsed) {
+    color: #fff;
+    background-color: #0d6efd;
+}
+
+.set-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.set-group label {
+    margin-bottom: 0;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
