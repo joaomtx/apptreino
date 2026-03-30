@@ -26,6 +26,9 @@
                         <a class="nav-link" href="#" id="nav-log-workout">Registrar Treino</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="#" id="nav-workouts">Treinos</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="#" id="nav-history">Histórico</a>
                     </li>
                 </ul>
@@ -35,7 +38,7 @@
 
     <div class="container mt-4">
         <!-- Dashboard View -->
-        <div id="dashboard-view">
+        <div id="dashboard-view" class="hidden">
             <h1 class="mb-4">Painel de Treinos</h1>
             <p>Bem-vindo! Aqui você pode ver um resumo das suas atividades.</p>
             <div id="dashboard-summary">
@@ -66,6 +69,14 @@
                 <button type="button" class="btn btn-secondary mt-3" id="add-exercise-btn">Adicionar Exercício</button>
                 <button type="submit" class="btn btn-primary mt-3">Salvar Treino</button>
             </form>
+        </div>
+
+        <!-- Workouts View -->
+        <div id="workouts-view" class="hidden">
+            <h1 class="mb-4">Treinos Pré-definidos</h1>
+            <div id="workouts-container">
+                <!-- Workouts will be injected by JS -->
+            </div>
         </div>
 
         <!-- History View -->

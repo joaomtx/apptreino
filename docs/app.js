@@ -3,12 +3,14 @@ document.addEventListener('DOMContentLoaded', () => {
         dashboard: document.getElementById('dashboard-view'),
         logWorkout: document.getElementById('log-workout-view'),
         history: document.getElementById('history-view'),
+        workouts: document.getElementById('workouts-view'),
     };
 
     const navLinks = {
         dashboard: document.getElementById('nav-dashboard'),
         logWorkout: document.getElementById('nav-log-workout'),
         history: document.getElementById('nav-history'),
+        workouts: document.getElementById('nav-workouts'),
     };
 
     const addExerciseBtn = document.getElementById('add-exercise-btn');
@@ -21,19 +23,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let state = {
         workouts: [],
-        routines: [], // Future use
+        routines: [],
     };
+
+    // --- AUTENTICAÇÃO REMOVIDA ---
+    // Neste modo sem autenticação, todos os usuários acessam imediatamente o dashboard.
 
     // --- DATA MANAGEMENT ---
     function loadData() {
         const savedData = localStorage.getItem('appTreinoData');
         if (savedData) {
-            state = JSON.parse(savedData);
+            state = { ...state, ...JSON.parse(savedData) };
         }
     }
 
     function saveData() {
-        localStorage.setItem('appTreinoData', JSON.stringify(state));
+        localStorage.setItem('appTreinoData', JSON.stringify({ workouts: state.workouts, routines: state.routines }));
     }
 
     // --- VIEW MANAGEMENT ---
@@ -42,15 +47,58 @@ document.addEventListener('DOMContentLoaded', () => {
         views[viewName].classList.remove('hidden');
 
         Object.values(navLinks).forEach(link => link.classList.remove('active'));
-        navLinks[viewName].classList.add('active');
+        if (navLinks[viewName]) navLinks[viewName].classList.add('active');
     }
 
     // --- NAVIGATION ---
     navLinks.dashboard.addEventListener('click', (e) => { e.preventDefault(); renderDashboard(); showView('dashboard'); });
     navLinks.logWorkout.addEventListener('click', (e) => { e.preventDefault(); showView('logWorkout'); });
     navLinks.history.addEventListener('click', (e) => { e.preventDefault(); renderHistory(); showView('history'); });
+    navLinks.workouts.addEventListener('click', (e) => { e.preventDefault(); renderWorkouts(); showView('workouts'); });
 
-    // --- LOGIC ---
+    // --- WORKOUTS MANAGEMENT ---
+    async function renderWorkouts() {
+        const workoutsContainer = document.getElementById('workouts-container');
+        workoutsContainer.innerHTML = '<h4>Treinos Pré-definidos</h4>';
+
+        try {
+            const res = await fetch('http://localhost:3000/workouts/predefined');
+            const predefined = await res.json();
+
+            predefined.forEach(workout => {
+                const card = document.createElement('div');
+                card.className = 'card mb-3';
+                card.innerHTML = `
+                    <div class="card-body">
+                        <h5 class="card-title">${workout.name}</h5>
+                        <p>Exercícios: ${workout.exercises.join(', ')}</p>
+                        <button class="btn btn-primary use-workout-btn" data-workout='${JSON.stringify(workout)}'>Usar este Treino</button>
+                    </div>
+                `;
+                workoutsContainer.appendChild(card);
+            });
+
+            document.querySelectorAll('.use-workout-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const workout = JSON.parse(e.target.dataset.workout);
+                    usePredefinedWorkout(workout);
+                });
+            });
+        } catch (error) {
+            workoutsContainer.innerHTML = '<p>Erro ao carregar treinos.</p>';
+        }
+    }
+
+    function usePredefinedWorkout(workout) {
+        // Preencher o formulário de log workout com os exercícios
+        exercisesContainer.innerHTML = '';
+        workout.exercises.forEach(ex => {
+            addExercise();
+            const lastCard = exercisesContainer.lastElementChild;
+            lastCard.querySelector('.exercise-name').value = ex;
+        });
+        showView('logWorkout');
+    }
 
     function getLatestPerformance(exerciseName) {
         const relevantWorkouts = state.workouts

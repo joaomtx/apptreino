@@ -1,6 +1,6 @@
 # AppTreino
 
-Um aplicativo web simples e de lado do cliente para registrar seus treinos de academia, acompanhar seu progresso e ajudar na progressão de cargas.
+Um aplicativo web para registrar treinos de academia, com autenticação JWT, treinos pré-definidos e montagem autônoma de treinos.
 
 ![Badge](https://img.shields.io/badge/javascript-ES6%2B-yellow)
 ![Badge](https://img.shields.io/badge/css-Bootstrap%205-purple)
@@ -10,13 +10,78 @@ Um aplicativo web simples e de lado do cliente para registrar seus treinos de ac
 
 ## 🎯 Visão Geral
 
-O AppTreino é uma Single Page Application (SPA) que funciona inteiramente no seu navegador, sem a necessidade de um back-end ou conexão com a internet após o primeiro carregamento. Ele foi projetado para ser uma ferramenta rápida e eficiente para quem quer registrar seus treinos e visualizar a evolução de força e volume ao longo do tempo.
+O AppTreino é uma aplicação com frontend e backend. O frontend é uma SPA que consome uma API REST com autenticação JWT. O backend usa Node.js, Express, Sequelize (ORM) e SQLite.
 
-Todos os dados são armazenados localmente no seu navegador usando a API de `localStorage`.
+Funcionalidades incluem:
+- Autenticação de usuários com JWT
+- Treinos pré-definidos
+- Montagem autônoma de treinos
+- Registro e histórico de treinos
+- Progressão de cargas com gráficos
 
 ---
 
 ## ✨ Funcionalidades
+
+- **Autenticação JWT**: Login/logout seguro com tokens.
+- **Treinos Pré-definidos**: Lista de treinos prontos (Peito, Pernas, Costas).
+- **Montagem Autônoma**: Usuários podem usar treinos pré-definidos e personalizar.
+- **Registro de Treinos**: Adicionar exercícios, séries, reps, peso.
+- **Histórico e Progressão**: Ver histórico e gráficos de progresso.
+- **Orientação a Objetos**: Código estruturado com classes (User, Workout, Exercise).
+
+---
+
+## 🚀 Como Usar
+
+1. **Instalar dependências**:
+   ```bash
+   npm install
+   ```
+
+2. **Iniciar o backend**:
+   ```bash
+   npm start
+   ```
+   O servidor roda em http://localhost:3000.
+
+3. **Abrir o frontend**:
+   Abra `docs/index.html` no navegador. Use um servidor local se necessário (ex.: `python -m http.server` na pasta docs).
+
+4. **Registrar usuário**:
+   Use uma ferramenta como Postman para registrar: POST http://localhost:3000/register com { "email": "user@example.com", "password": "pass" }.
+
+5. **Login e usar**:
+   Faça login no app, acesse treinos pré-definidos, monte e registre treinos.
+
+---
+
+## 🛠️ Tecnologias
+
+- **Frontend**: HTML, CSS (Bootstrap), JavaScript (ES6+)
+- **Backend**: Node.js, Express, Sequelize (ORM), SQLite, JWT, bcrypt
+- **Outros**: Chart.js para gráficos
+
+---
+
+## 📁 Estrutura do Projeto
+
+```
+apptreino/
+├── server.js          # Backend com API
+├── package.json       # Dependências
+├── docs/
+│   ├── index.html     # Frontend
+│   ├── app.js         # Lógica frontend
+│   ├── style.css      # Estilos
+│   └── README.md      # Este arquivo
+```
+
+---
+
+## 🤝 Contribuição
+
+Sinta-se à vontade para contribuir!
 
 *   **Registro de Treinos:** Adicione treinos com data, nome (ex: "Treino A") e múltiplos exercícios.
 *   **Detalhes do Exercício:** Para cada exercício, registre séries, repetições e o peso (kg).
